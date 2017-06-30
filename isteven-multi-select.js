@@ -353,7 +353,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
 
                                 endIndex = i;
 
-                                for ( j = 0; j < tempArr.length ; j++ ) {
+                                for ( j = 0, ticked = 0; j < tempArr.length ; j++ ) {
                                     if ( typeof tempArr[ j ][ $scope.tickProperty ] !== 'undefined' &&  tempArr[ j ][ $scope.tickProperty ] === false ) {
                                         allTicked = false;
                                         break;
@@ -380,22 +380,30 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                                 }
 
                                 else {
+                                    var newSelection = 0;
+
                                     for ( j = startIndex; j <= endIndex ; j++ ) {
                                         if ( typeof $scope.filteredModel[ j ][ attrs.groupProperty ] === 'undefined' ) {
-                                            if (typeof attrs.maxSelection === 'number' &&
-                                                !$scope.filteredModel[ j ][ $scope.indexProperty ] &&
-                                                attrs.maxSelection === $scope.outputModel.length) {
+                                            if (attrs.maxSelection &&
+                                                parseInt(attrs.maxSelection) === ($scope.outputModel.length + newSelection)) {
                                                 break;
                                             }
 
                                             if ( typeof attrs.disableProperty === 'undefined' ) {
+                                                if (!$scope.filteredModel[ j ][ $scope.tickProperty ]) {
+                                                  newSelection++;
+                                                }
+
                                                 $scope.filteredModel[ j ][ $scope.tickProperty ] = true;
                                                 // we refresh input model as well
                                                 inputModelIndex = $scope.filteredModel[ j ][ $scope.indexProperty ];
                                                 $scope.inputModel[ inputModelIndex ][ $scope.tickProperty ] = true;
-
                                             }
                                             else if ( $scope.filteredModel[ j ][ attrs.disableProperty ] !== true ) {
+                                                if (!$scope.filteredModel[ j ][ $scope.tickProperty ]) {
+                                                  newSelection++;
+                                                }
+
                                                 $scope.filteredModel[ j ][ $scope.tickProperty ] = true;
                                                 // we refresh input model as well
                                                 inputModelIndex = $scope.filteredModel[ j ][ $scope.indexProperty ];
@@ -434,9 +442,9 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
 
                     // Multiple
                     else {
-                        if (typeof attrs.maxSelection === 'number' &&
+                        if (attrs.maxSelection &&
                             !$scope.filteredModel[ index ][ $scope.tickProperty ] &&
-                            attrs.maxSelection === $scope.outputModel.length) {
+                            parseInt(attrs.maxSelection) === $scope.outputModel.length) {
                             return;
                         }
 
