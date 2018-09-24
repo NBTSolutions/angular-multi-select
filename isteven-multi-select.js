@@ -365,12 +365,10 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                                         if ( typeof $scope.filteredModel[ j ][ attrs.groupProperty ] === 'undefined' ) {
                                             if ( typeof attrs.disableProperty === 'undefined' ) {
                                                 if($scope.filteredModel[ j ][ $scope.tickProperty ] === undefined){
-                                                    for ( j = startIndex; j <= endIndex ; j++ ) {
-                                                        $scope.filteredModel[ j ][ $scope.tickProperty ] = true;
-                                                        // we refresh input model as well
-                                                        inputModelIndex = $scope.filteredModel[ j ][ $scope.indexProperty ];
-                                                        $scope.inputModel[ inputModelIndex ][ $scope.tickProperty ] = true;
-                                                    }   
+                                                    $scope.filteredModel[ j ][ $scope.tickProperty ] = true;
+                                                    // we refresh input model as well
+                                                    inputModelIndex = $scope.filteredModel[ j ][ $scope.indexProperty ];
+                                                    $scope.inputModel[ inputModelIndex ][ $scope.tickProperty ] = true;  
                                                 }else{
                                                     $scope.filteredModel[ j ][ $scope.tickProperty ] = false;
                                                     // we refresh input model as well
@@ -1114,7 +1112,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                             '<input class="checkbox focusable" type="checkbox" '+
                                 'ng-disabled="itemIsDisabled( item )" '+
                                 'ng-checked="item[ tickProperty ]" '+
-                                'ng-click="syncItems( item, $event, $index ); refreshButton();" />'+
+                                'ng-click="syncItems( item, $event, $index );" />'+
                             // item label using ng-bind-hteml
                             '<span '+
                                 'ng-class="{disabled:itemIsDisabled( item )}" '+
