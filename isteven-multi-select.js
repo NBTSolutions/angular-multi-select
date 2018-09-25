@@ -364,10 +364,17 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                                     for ( j = startIndex; j <= endIndex ; j++ ) {
                                         if ( typeof $scope.filteredModel[ j ][ attrs.groupProperty ] === 'undefined' ) {
                                             if ( typeof attrs.disableProperty === 'undefined' ) {
-                                                $scope.filteredModel[ j ][ $scope.tickProperty ] = false;
-                                                // we refresh input model as well
-                                                inputModelIndex = $scope.filteredModel[ j ][ $scope.indexProperty ];
-                                                $scope.inputModel[ inputModelIndex ][ $scope.tickProperty ] = false;
+                                                if($scope.filteredModel[ j ][ $scope.tickProperty ] === undefined){
+                                                    $scope.filteredModel[ j ][ $scope.tickProperty ] = true;
+                                                    // we refresh input model as well
+                                                    inputModelIndex = $scope.filteredModel[ j ][ $scope.indexProperty ];
+                                                    $scope.inputModel[ inputModelIndex ][ $scope.tickProperty ] = true;  
+                                                }else{
+                                                    $scope.filteredModel[ j ][ $scope.tickProperty ] = false;
+                                                    // we refresh input model as well
+                                                    inputModelIndex = $scope.filteredModel[ j ][ $scope.indexProperty ];
+                                                    $scope.inputModel[ inputModelIndex ][ $scope.tickProperty ] = false;
+                                                }
                                             }
                                             else if ( $scope.filteredModel[ j ][ attrs.disableProperty ] !== true ) {
                                                 $scope.filteredModel[ j ][ $scope.tickProperty ] = false;
@@ -1029,22 +1036,22 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
 
             // this is for touch enabled devices. We don't want to hide checkboxes on scroll.
             var onTouchStart = function( e ) {
-            	$scope.$apply( function() {
-            		$scope.scrolled = false;
-            	});
+                $scope.$apply( function() {
+                    $scope.scrolled = false;
+                });
             };
             angular.element( document ).bind( 'touchstart', onTouchStart);
             var onTouchMove = function( e ) {
-            	$scope.$apply( function() {
-            		$scope.scrolled = true;
-            	});
+                $scope.$apply( function() {
+                    $scope.scrolled = true;
+                });
             };
             angular.element( document ).bind( 'touchmove', onTouchMove);
 
             // unbind document events to prevent memory leaks
             $scope.$on( '$destroy', function () {
-			    angular.element( document ).unbind( 'touchstart', onTouchStart);
-            	angular.element( document ).unbind( 'touchmove', onTouchMove);
+                angular.element( document ).unbind( 'touchstart', onTouchStart);
+                angular.element( document ).unbind( 'touchmove', onTouchMove);
             });
         }
     }
@@ -1109,12 +1116,11 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                         '<div class="acol" ng-if="item[ spacingProperty ] > 0" ng-repeat="i in numberToArray( item[ spacingProperty ] ) track by $index">'+
                     '</div>  '+
                     '<div class="acol">'+
-                        '<label>'+
-                            // input, so that it can accept focus on keyboard click
+                        '<label>'+// input, so that it can accept focus on keyboard click
                             '<input class="checkbox focusable" type="checkbox" '+
                                 'ng-disabled="itemIsDisabled( item )" '+
                                 'ng-checked="item[ tickProperty ]" '+
-                                'ng-click="syncItems( item, $event, $index )" />'+
+                                'ng-click="syncItems( item, $event, $index );" />'+
                             // item label using ng-bind-hteml
                             '<span '+
                                 'ng-class="{disabled:itemIsDisabled( item )}" '+
@@ -1123,10 +1129,10 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                         '</label>'+
                     '</div>'+
                     // the tick/check mark
-                    '<span class="tickMark" ng-if="item[ groupProperty ] !== true && item[ tickProperty ] === true" ng-bind-html="icon.tickMark"></span>'+
+                    // '<span class="tickMark" ng-if="item[ groupProperty ] !== true && item[ tickProperty ] === true" ng-bind-html="icon.tickMark"></span>'+
                 '</div>'+
             '</div>'+
         '</div>'+
     '</span>';
-	$templateCache.put( 'isteven-multi-select.htm' , template );
+    $templateCache.put( 'isteven-multi-select.htm' , template );
 }]);
