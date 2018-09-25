@@ -99,7 +99,7 @@
     -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
     display: none !important;
-    /* 60px padding on the checkboxLayercontainer */
+    /* 60px padding on the istevent-multi-select parent container */
     width:calc(100% - 60px);
     min-width:278px;
     max-width:625px;
