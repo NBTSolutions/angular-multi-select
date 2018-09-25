@@ -243,7 +243,7 @@
 /* item labels focus on mouse hover */
 .multiSelect .multiSelectItem:hover,
 .multiSelect .multiSelectGroup:hover {
-    background-image: linear-gradient( #cacdd7, #cacdd7 ) !important;
+    background:#cacdd7 !important;
     color: #000 !important;
     cursor: pointer;
     border: 1px solid #ccc !important;
@@ -251,7 +251,7 @@
 
 /* item labels focus using keyboard */
 .multiSelect .multiSelectFocus {
-    background-image: linear-gradient( #cacdd7, #cacdd7 ) !important;
+    background:#cacdd7 !important;
     cursor: pointer;
     border: 1px solid #ccc !important;
 }
